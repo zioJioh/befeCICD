@@ -12,9 +12,11 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Lazy
+import org.springframework.context.annotation.Profile
 import org.springframework.transaction.annotation.Transactional
 
 @Configuration
+@Profile("!prod")
 class BaseInitData(
     private val postService: PostService,
     private val memberService: MemberService

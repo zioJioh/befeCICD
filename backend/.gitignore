@@ -43,4 +43,6 @@ db_dev.trace.db
 apiV1.json
 schema.d.ts
 src/main/resources/application-secret.yml
-src/main/generated
+src/main/
+
+c:

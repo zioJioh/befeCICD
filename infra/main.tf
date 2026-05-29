@@ -312,35 +312,14 @@ END_OF_FILE
 }
 
 # 최신 Amazon Linux 2023 AMI 조회 (프리 티어 호환)
-data "aws_ami" "latest_amazon_linux" {
-  most_recent = true
-  owners = ["amazon"]
-
-  filter {
-    name = "name"
-    values = ["al2023-ami-2023.*-x86_64"]
-  }
-
-  filter {
-    name = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name = "root-device-type"
-    values = ["ebs"]
-  }
+data "aws_ssm_parameter" "amazon_linux_ami" {
+  name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
 
 # EC2 인스턴스 생성
 resource "aws_instance" "ec2_1" {
   # 사용할 AMI ID
-  ami = data.aws_ami.latest_amazon_linux.id
+  ami = data.aws_ssm_parameter.amazon_linux_ami.value
   # EC2 인스턴스 유형
   instance_type = "t3.micro"
   # 사용할 서브넷 ID
@@ -367,4 +346,16 @@ resource "aws_instance" "ec2_1" {
   user_data = <<-EOF
 ${local.ec2_user_data_base}
 EOF
+}
+
+data "aws_eip" "eip_ec2_1" {
+  filter {
+    name   = "tag:EC2"
+    values = ["dev-ec2-1"]
+  }
+}
+
+resource "aws_eip_association" "ec2_1" {
+  instance_id   = aws_instance.ec2_1.id
+  allocation_id = data.aws_eip.eip_ec2_1.id
 }

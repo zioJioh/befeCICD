@@ -12,4 +12,11 @@
       </profile>
     </annotationProcessing>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="next" options="-parameters -proc:none" />
+      <module name="next.main" options="-parameters -proc:none" />
+      <module name="next.test" options="-parameters -proc:none" />
+    </option>
+  </component>
 </project>
