@@ -77,8 +77,8 @@ custom:
   appName: test-app
   prod:
     domain: dooafjbdf.shop
-    backUrl: "https://api.${custom.appName}.${custom.prod.domain}"
-    frontUrl: "https://www.${custom.appName}.${custom.prod.domain}"
+    backUrl: "https://api.${custom.prod.domain}"
+    frontUrl: "https://www.${custom.prod.domain}"
 
   dev:
     domain: localhost
